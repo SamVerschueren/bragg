@@ -11,6 +11,8 @@ module.exports = {
 			err = createError('non-error thrown: ' + err);
 		}
 
-		context.fail(err.status + ' - ' + err.message);
+		var status = err.status || 500;
+
+		context.fail(status + ' - ' + err.message);
 	}
 };
