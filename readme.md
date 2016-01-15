@@ -2,7 +2,7 @@
 
 > AWS λ web framework
 
-The framework is heavily inspired by [Koa](http://koajs.com/).
+This framework is heavily inspired by [koa](http://koajs.com/).
 
 ## Install
 
@@ -15,6 +15,9 @@ $ npm install --save bragg
 
 ### Simple example
 
+Adding a single function as middleware is quite easy. The following example will succeed the lambda function with
+the value `Foo Bar`.
+
 ```js
 var bragg = require('bragg');
 var app = bragg();
@@ -26,9 +29,9 @@ app.use(function () {
 exports.handler = app.listen();
 ```
 
-The result if the lambda function in this case is `Foo Bar`.
+### Promise support
 
-### Promises
+If a promise is assigned to the `body` property, it will be resolved before sending the result to the client.
 
 ```js
 var Promise = require('pinkie-promise');
@@ -42,9 +45,9 @@ app.use(function () {
 exports.handler = app.listen();
 ```
 
-If the `body` is a promise function, the result of the lambda function will be the same as the result of the promise.
-
 ### Middlewares
+
+Multiple middlewares will be executed one after the other. The result of the following example is `Foo Bar Baz`.
 
 ```js
 var Promise = require('pinkie-promise');
@@ -66,7 +69,39 @@ app.use(function (result) {
 exports.handler = app.listen();
 ```
 
-The output of the lambda function will be `Foo Bar Baz`.
+
+## Mapping template
+
+In order for you to use parameters provided through API Gateway, you should add a [mapping template](http://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html#models-mappings-mappings)
+in the integration request.
+
+```js
+#set($path = $input.params().path)
+#set($qs = $input.params().querystring)
+{
+    "identity": {
+        #foreach($key in $context.identity.keySet())
+            "$key": "$context.identity.get($key)"
+        #if($foreach.hasNext), #end
+        #end
+    },
+    "params": {
+        #foreach($key in $path.keySet())
+            "$key": "$path.get($key)"
+        #if($foreach.hasNext), #end
+        #end
+    },
+    "query": {
+        #foreach($key in $qs.keySet())
+            "$key": "$qs.get($key)"
+        #if($foreach.hasNext), #end
+        #end
+    },
+    "body": $input.json('$')
+}
+```
+
+These properties will then be available in the `request` object in the middleware function.
 
 
 ## License

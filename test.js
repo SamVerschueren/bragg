@@ -25,16 +25,6 @@ test('create', t => {
 	t.same(t.context.app._middleware, []);
 });
 
-test('create context throws error if no http-method is provided', t => {
-	const app = t.context.app;
-	t.throws(app.createContext.bind(app, {}), 'No http-method provided.');
-});
-
-test('create context throws error if no resource-path is provided', t => {
-	const app = t.context.app;
-	t.throws(app.createContext.bind(app, {'http-method': 'GET'}), 'No resource-path provided.');
-});
-
 test('create context', t => {
 	const ctx = t.context.app.createContext(fixture);
 

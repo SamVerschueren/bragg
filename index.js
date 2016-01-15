@@ -18,18 +18,8 @@ Application.prototype.use = function (fn) {
 };
 
 Application.prototype.createContext = function (req) {
-	if (!req['http-method']) {
-		throw new Error('No http-method provided.');
-	}
-
-	if (!req['resource-path']) {
-		throw new Error('No resource-path provided.');
-	}
-
 	var context = Object.create(this._context);
 	context.req = req;
-	context.method = req['http-method'];
-	context.path = req['resource-path'];
 	context.request = {};
 
 	['body', 'query', 'params', 'identity'].forEach(function (key) {
@@ -37,6 +27,14 @@ Application.prototype.createContext = function (req) {
 			context.request[key] = req[key];
 		}
 	});
+
+	if (req['http-method']) {
+		context.method = req['http-method'];
+	}
+
+	if (req['resource-path']) {
+		context.path = req['resource-path'];
+	}
 
 	return context;
 };
@@ -46,18 +44,14 @@ Application.prototype.listen = function () {
 	var self = this;
 
 	return function (req, context) {
-		try {
-			var ctx = self.createContext(req);
-			fn.call(ctx)
-				.then(function () {
-					return respond.call(ctx, context);
-				})
-				.catch(function (err) {
-					ctx.onerror(context, err);
-				});
-		} catch (err) {
-			self._context.onerror(context, err);
-		}
+		var ctx = self.createContext(req);
+		fn.call(ctx)
+			.then(function () {
+				return respond.call(ctx, context);
+			})
+			.catch(function (err) {
+				ctx.onerror(context, err);
+			});
 	};
 };
 
