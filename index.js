@@ -17,9 +17,10 @@ Application.prototype.use = function (fn) {
 	return this;
 };
 
-Application.prototype.createContext = function (req) {
+Application.prototype.createContext = function (req, ctx) {
 	var context = Object.create(this._context);
 	context.req = req;
+	context.context = ctx;
 	context.request = {};
 
 	['body', 'query', 'params', 'identity'].forEach(function (key) {
@@ -44,7 +45,7 @@ Application.prototype.listen = function () {
 	var self = this;
 
 	return function (req, context) {
-		var ctx = self.createContext(req);
+		var ctx = self.createContext(req, context);
 		fn.call(ctx)
 			.then(function () {
 				return respond.call(ctx, context);

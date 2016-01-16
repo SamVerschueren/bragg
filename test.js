@@ -26,10 +26,13 @@ test('create', t => {
 });
 
 test('create context', t => {
-	const ctx = t.context.app.createContext(fixture);
+	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
 
 	t.same(ctx, {
 		req: fixture,
+		context: {
+			foo: 'bar'
+		},
 		method: 'POST',
 		path: '/test',
 		request: {
