@@ -19,22 +19,21 @@ Application.prototype.use = function (fn) {
 
 Application.prototype.createContext = function (req, ctx) {
 	var context = Object.create(this._context);
-	context.req = req;
-	context.context = ctx;
 	context.request = {};
 
+	Object.defineProperty(context, 'req', {enumerable: true, value: req});
+	Object.defineProperty(context, 'context', {enumerable: true, value: ctx});
+
 	['body', 'query', 'params', 'identity'].forEach(function (key) {
-		if (req[key]) {
-			context.request[key] = req[key];
-		}
+		Object.defineProperty(context.request, key, {enumerable: true, value: req[key] || {}});
 	});
 
 	if (req['http-method']) {
-		context.method = req['http-method'];
+		Object.defineProperty(context, 'method', {enumerable: true, value: req['http-method']});
 	}
 
 	if (req['resource-path']) {
-		context.path = req['resource-path'];
+		Object.defineProperty(context, 'path', {enumerable: true, value: req['resource-path']});
 	}
 
 	return context;

@@ -16,6 +16,10 @@ const fixture = {
 	}
 };
 
+function overwriteFn(ctx) {
+	ctx.path = 'hello';
+}
+
 test.beforeEach(t => {
 	t.context.app = m();
 });
@@ -37,9 +41,16 @@ test('create context', t => {
 		path: '/test',
 		request: {
 			body: fixture.body,
-			query: fixture.query
+			query: fixture.query,
+			params: {},
+			identity: {}
 		}
 	});
+});
+
+test('error when overwriting a property of the context object', t => {
+	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
+	t.throws(overwriteFn.bind(ctx), TypeError);
 });
 
 test('return undefined if the body is not set', async t => {
