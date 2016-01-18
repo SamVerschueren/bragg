@@ -22,8 +22,8 @@ the value `Foo Bar`.
 var bragg = require('bragg');
 var app = bragg();
 
-app.use(function () {
-    this.body = 'Foo Bar';
+app.use(function (ctx) {
+    ctx.body = 'Foo Bar';
 });
 
 exports.handler = app.listen();
@@ -38,8 +38,8 @@ var Promise = require('pinkie-promise');
 var bragg = require('bragg');
 var app = bragg();
 
-app.use(function () {
-    this.body = Promise.resolve('Foo Bar');
+app.use(function (ctx) {
+    ctx.body = Promise.resolve('Foo Bar');
 });
 
 exports.handler = app.listen();
@@ -58,12 +58,12 @@ app.use(function () {
     return 'Foo';
 });
 
-app.use(function (result) {
+app.use(function (ctx, result) {
     return Promise.resolve(result + ' Bar');
 });
 
-app.use(function (result) {
-    this.body = result + ' Baz';
+app.use(function (ctx, result) {
+    ctx.body = result + ' Baz';
 });
 
 exports.handler = app.listen();

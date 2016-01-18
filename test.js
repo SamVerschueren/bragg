@@ -57,3 +57,7 @@ test('resolves body if it is a promise', async t => {
 test('chain middlewares', async t => {
 	t.is(await fn({'http-method': 'GET', 'resource-path': '/foo-bar-baz'}), 'Foo Bar Baz');
 });
+
+test('error', async t => {
+	t.throws(fn({'http-metod': 'GET', 'resource-path': '/blabla'}), '404 - Resource not found');
+});

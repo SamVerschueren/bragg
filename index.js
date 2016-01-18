@@ -46,9 +46,9 @@ Application.prototype.listen = function () {
 
 	return function (req, context) {
 		var ctx = self.createContext(req, context);
-		fn.call(ctx)
+		fn(ctx)
 			.then(function () {
-				return respond.call(ctx, context);
+				return respond(ctx, context);
 			})
 			.catch(function (err) {
 				ctx.onerror(context, err);
@@ -57,23 +57,23 @@ Application.prototype.listen = function () {
 };
 
 function compose(middlewares) {
-	return function () {
-		var self = this;
-
+	return function (ctx) {
 		return middlewares.reduce(function (promise, middleware) {
-			return promise.then(middleware.bind(self));
+			return promise.then(function (result) {
+				return middleware(ctx, result);
+			});
 		}, Promise.resolve());
 	};
 }
 
-function respond(context) {
-	if (isPromise(this.body)) {
-		return this.body.then(function (result) {
-			context.succeed(result);
+function respond(ctx, res) {
+	if (isPromise(ctx.body)) {
+		return ctx.body.then(function (result) {
+			res.succeed(result);
 		});
 	}
 
-	context.succeed(this.body);
+	res.succeed(ctx.body);
 }
 
 module.exports = Application;

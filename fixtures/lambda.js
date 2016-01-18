@@ -3,26 +3,30 @@ var Promise = require('pinkie-promise');
 var bragg = require('../');
 var app = bragg();
 
-app.use(function () {
-    if (this.path === '/foo') {
-        this.body = 'Bar';
-    } else if (this.path === '/foo-bar') {
-        this.body = Promise.resolve('Foo Bar');
-    } else if (this.path === '/foo-bar-baz') {
-        return Promise.resolve('Foo');
-    }
+app.use(function (ctx) {
+	if (ctx.path === '/test') {
+		return Promise.resolve();
+	} else if (ctx.path === '/foo') {
+		ctx.body = 'Bar';
+	} else if (ctx.path === '/foo-bar') {
+		ctx.body = Promise.resolve('Foo Bar');
+	} else if (ctx.path === '/foo-bar-baz') {
+		return Promise.resolve('Foo');
+	} else {
+		ctx.throw(404, 'Resource not found');
+	}
 });
 
-app.use(function (result) {
-    if (result) {
-        return Promise.resolve(result + ' Bar');
-    }
+app.use(function (ctx, result) {
+	if (result) {
+		return Promise.resolve(result + ' Bar');
+	}
 });
 
-app.use(function (result) {
-    if (result) {
-        this.body = result + ' Baz';
-    }
+app.use(function (ctx, result) {
+	if (result) {
+		ctx.body = result + ' Baz';
+	}
 });
 
 exports.handler = app.listen();
