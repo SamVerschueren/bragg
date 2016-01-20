@@ -23,7 +23,7 @@ var bragg = require('bragg');
 var app = bragg();
 
 app.use(function (ctx) {
-    ctx.body = 'Foo Bar';
+	ctx.body = 'Foo Bar';
 });
 
 exports.handler = app.listen();
@@ -39,7 +39,7 @@ var bragg = require('bragg');
 var app = bragg();
 
 app.use(function (ctx) {
-    ctx.body = Promise.resolve('Foo Bar');
+	ctx.body = Promise.resolve('Foo Bar');
 });
 
 exports.handler = app.listen();
@@ -55,15 +55,15 @@ var bragg = require('bragg');
 var app = bragg();
 
 app.use(function () {
-    return 'Foo';
+	return 'Foo';
 });
 
 app.use(function (ctx, result) {
-    return Promise.resolve(result + ' Bar');
+	return Promise.resolve(result + ' Bar');
 });
 
 app.use(function (ctx, result) {
-    ctx.body = result + ' Baz';
+	ctx.body = result + ' Baz';
 });
 
 exports.handler = app.listen();
@@ -78,26 +78,27 @@ in the integration request.
 ```js
 #set($path = $input.params().path)
 #set($qs = $input.params().querystring)
+#set($identity = $context.identity)
 {
-    "identity": {
-        #foreach($key in $context.identity.keySet())
-            "$key": "$context.identity.get($key)"
-        #if($foreach.hasNext), #end
-        #end
-    },
-    "params": {
-        #foreach($key in $path.keySet())
-            "$key": "$path.get($key)"
-        #if($foreach.hasNext), #end
-        #end
-    },
-    "query": {
-        #foreach($key in $qs.keySet())
-            "$key": "$qs.get($key)"
-        #if($foreach.hasNext), #end
-        #end
-    },
-    "body": $input.json('$')
+	"identity": {
+		#foreach($key in $identity.keySet())
+			"$key": "$util.escapeJavaScript($identity.get($key))"
+		#if($foreach.hasNext), #end
+		#end
+	},
+	"params": {
+		#foreach($key in $path.keySet())
+			"$key": "$path.get($key)"
+		#if($foreach.hasNext), #end
+		#end
+	},
+	"query": {
+		#foreach($key in $qs.keySet())
+			"$key": "$qs.get($key)"
+		#if($foreach.hasNext), #end
+		#end
+	},
+	"body": $input.json('$')
 }
 ```
 
