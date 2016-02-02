@@ -25,7 +25,7 @@ Application.prototype.createContext = function (req, ctx) {
 	Object.defineProperty(context, 'context', {enumerable: true, value: ctx});
 
 	['body', 'query', 'params', 'identity'].forEach(function (key) {
-		Object.defineProperty(context.request, key, {enumerable: true, value: req[key] || {}});
+		Object.defineProperty(context.request, key, {enumerable: true, writable: true, value: req[key] || {}});
 	});
 
 	if (req['http-method']) {

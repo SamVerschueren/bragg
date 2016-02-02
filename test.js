@@ -48,6 +48,13 @@ test('create context', t => {
 	});
 });
 
+test('overwrite body', t => {
+	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
+	ctx.request.body = 'foo';
+
+	t.same(ctx.request.body, 'foo');
+});
+
 test('error when overwriting a property of the context object', t => {
 	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
 	t.throws(overwriteFn.bind(ctx), TypeError);
