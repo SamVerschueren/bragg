@@ -1,6 +1,6 @@
 {
   "name": "bragg",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "AWS Lambda web framework ",
   "license": "MIT",
   "repository": "SamVerschueren/bragg",
