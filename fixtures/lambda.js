@@ -12,6 +12,8 @@ app.use(function (ctx) {
 		ctx.body = Promise.resolve('Foo Bar');
 	} else if (ctx.path === '/foo-bar-baz') {
 		return Promise.resolve('Foo');
+	} else if (ctx.path === '/error') {
+		throw new Error('something went wrong internally');
 	} else {
 		ctx.throw(404, 'Resource not found');
 	}

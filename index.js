@@ -20,6 +20,8 @@ Application.prototype.use = function (fn) {
 Application.prototype.createContext = function (req, ctx) {
 	var context = Object.create(this._context);
 	context.request = {};
+	context.app = this;
+	context.onerror = context.onerror.bind(context);
 
 	Object.defineProperty(context, 'req', {enumerable: true, value: req});
 	Object.defineProperty(context, 'context', {enumerable: true, value: ctx});

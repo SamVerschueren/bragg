@@ -32,6 +32,11 @@ test('create', t => {
 test('create context', t => {
 	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
 
+	t.ok(ctx.app);
+
+	delete ctx.app;
+	delete ctx.onerror;
+
 	t.same(ctx, {
 		req: fixture,
 		context: {
@@ -78,4 +83,8 @@ test('chain middlewares', async t => {
 
 test('error', async t => {
 	t.throws(fn({'http-metod': 'GET', 'resource-path': '/blabla'}), '404 - Resource not found');
+});
+
+test('500 error', async t => {
+	t.throws(fn({'http-metod': 'GET', 'resource-path': '/error'}), '500 - Internal Server Error');
 });
