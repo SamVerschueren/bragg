@@ -1,7 +1,7 @@
 {
   "name": "bragg",
   "version": "0.2.2",
-  "description": "AWS Lambda web framework ",
+  "description": "AWS Lambda web framework",
   "license": "MIT",
   "repository": "SamVerschueren/bragg",
   "author": {
@@ -10,7 +10,7 @@
     "url": "github.com/SamVerschueren"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
     "test": "xo && ava"
@@ -27,14 +27,16 @@
     "bragg"
   ],
   "dependencies": {
-    "http-errors": "^1.3.1",
+    "http-errors": "^1.4.0",
     "is-promise": "^2.1.0",
-    "pinkie-promise": "^2.0.0",
     "statuses": "^1.2.1"
   },
   "devDependencies": {
     "ava": "*",
-    "aws-lambda-pify": "^1.1.0",
+    "aws-lambda-pify": "^2.0.0",
     "xo": "*"
+  },
+  "xo": {
+    "esnext": true
   }
 }

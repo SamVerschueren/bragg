@@ -19,10 +19,10 @@ Adding a single function as middleware is quite easy. The following example will
 the value `Foo Bar`.
 
 ```js
-var bragg = require('bragg');
-var app = bragg();
+const bragg = require('bragg');
+const app = bragg();
 
-app.use(function (ctx) {
+app.use(ctx => {
 	ctx.body = 'Foo Bar';
 });
 
@@ -34,11 +34,10 @@ exports.handler = app.listen();
 If a promise is assigned to the `body` property, it will be resolved before sending the result to the client.
 
 ```js
-var Promise = require('pinkie-promise');
-var bragg = require('bragg');
-var app = bragg();
+const bragg = require('bragg');
+const app = bragg();
 
-app.use(function (ctx) {
+app.use(ctx => {
 	ctx.body = Promise.resolve('Foo Bar');
 });
 
@@ -50,19 +49,18 @@ exports.handler = app.listen();
 Multiple middlewares will be executed one after the other. The result of the following example is `Foo Bar Baz`.
 
 ```js
-var Promise = require('pinkie-promise');
-var bragg = require('bragg');
-var app = bragg();
+const bragg = require('bragg');
+const app = bragg();
 
-app.use(function () {
+app.use(() => {
 	return 'Foo';
 });
 
-app.use(function (ctx, result) {
+app.use((ctx, result) => {
 	return Promise.resolve(result + ' Bar');
 });
 
-app.use(function (ctx, result) {
+app.use((ctx, result) => {
 	ctx.body = result + ' Baz';
 });
 

@@ -1,17 +1,19 @@
 'use strict';
-var createError = require('http-errors');
-var statuses = require('statuses');
+const createError = require('http-errors');
+const statuses = require('statuses');
 module.exports = {
+	// eslint-disable-next-line babel/object-shorthand
 	throw: function () {
+		// eslint-disable-next-line prefer-spread
 		throw createError.apply(null, arguments);
 	},
-	onerror: function (context, err) {
+	onerror: (context, err) => {
 		if (!err) {
 			return;
 		}
 
 		if (!(err instanceof Error)) {
-			err = new Error('non-error thrown: ' + err);
+			err = new Error(`non-error thrown: ${err}`);
 		}
 
 		// ENOENT support
@@ -31,8 +33,8 @@ module.exports = {
 			console.log(err.stack);
 		}
 
-		var code = statuses[err.status];
-		var msg = err.status + ' - ' + (err.expose ? err.message : code);
+		const code = statuses[err.status];
+		const msg = `${err.status} - ${err.expose ? err.message : code}`;
 
 		context.fail(msg);
 	}

@@ -1,7 +1,7 @@
 import test from 'ava';
 import pify from 'aws-lambda-pify';
 import index from './fixtures/lambda';
-import m from './';
+import m from '.';
 
 const fn = pify(index.handler);
 
@@ -16,28 +16,27 @@ const fixture = {
 	}
 };
 
-function overwriteFn(ctx) {
+const overwriteFn = ctx => {
 	ctx.path = 'hello';
-}
+};
 
 test.beforeEach(t => {
 	t.context.app = m();
 });
 
 test('create', t => {
-	t.is(t.context.app.constructor, m);
-	t.same(t.context.app._middleware, []);
+	t.deepEqual(t.context.app._middleware, []);
 });
 
 test('create context', t => {
 	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
 
-	t.ok(ctx.app);
+	t.truthy(ctx.app);
 
 	delete ctx.app;
 	delete ctx.onerror;
 
-	t.same(ctx, {
+	t.deepEqual(ctx, {
 		req: fixture,
 		context: {
 			foo: 'bar'
@@ -57,7 +56,7 @@ test('overwrite body', t => {
 	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
 	ctx.request.body = 'foo';
 
-	t.same(ctx.request.body, 'foo');
+	t.deepEqual(ctx.request.body, 'foo');
 });
 
 test('error when overwriting a property of the context object', t => {
@@ -66,7 +65,7 @@ test('error when overwriting a property of the context object', t => {
 });
 
 test('return undefined if the body is not set', async t => {
-	t.notOk(await fn(fixture));
+	t.falsy(await fn(fixture));
 });
 
 test('return the body', async t => {
@@ -81,10 +80,10 @@ test('chain middlewares', async t => {
 	t.is(await fn({'http-method': 'GET', 'resource-path': '/foo-bar-baz'}), 'Foo Bar Baz');
 });
 
-test('error', async t => {
+test('error', t => {
 	t.throws(fn({'http-metod': 'GET', 'resource-path': '/blabla'}), '404 - Resource not found');
 });
 
-test('500 error', async t => {
+test('500 error', t => {
 	t.throws(fn({'http-metod': 'GET', 'resource-path': '/error'}), '500 - Internal Server Error');
 });

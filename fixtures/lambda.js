@@ -1,9 +1,8 @@
 'use strict';
-var Promise = require('pinkie-promise');
-var bragg = require('../');
-var app = bragg();
+const bragg = require('../');
+const app = bragg();
 
-app.use(function (ctx) {
+app.use(ctx => {
 	if (ctx.path === '/test') {
 		return Promise.resolve();
 	} else if (ctx.path === '/foo') {
@@ -19,13 +18,13 @@ app.use(function (ctx) {
 	}
 });
 
-app.use(function (ctx, result) {
+app.use((ctx, result) => {
 	if (result) {
 		return Promise.resolve(result + ' Bar');
 	}
 });
 
-app.use(function (ctx, result) {
+app.use((ctx, result) => {
 	if (result) {
 		ctx.body = result + ' Baz';
 	}
