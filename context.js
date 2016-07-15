@@ -1,6 +1,7 @@
 'use strict';
 const createError = require('http-errors');
 const statuses = require('statuses');
+
 module.exports = {
 	// eslint-disable-next-line babel/object-shorthand
 	throw: function () {
