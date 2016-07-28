@@ -111,6 +111,7 @@ These properties will then be available in the `request` object in the middlewar
 - [bragg-sns](https://github.com/SamVerschueren/bragg-sns) - SNS middleware.
 - [bragg-dynamodb](https://github.com/SamVerschueren/bragg-dynamodb) - DynamoDB middleware.
 - [bragg-cloudwatch](https://github.com/SamVerschueren/bragg-cloudwatch) - CloudWatch middleware.
+- [bragg-kms-decrypt](https://github.com/SamVerschueren/bragg-kms-decrypt) - Decrypt properties from the response object.
 
 
 ## License
