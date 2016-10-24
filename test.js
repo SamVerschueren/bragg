@@ -8,10 +8,10 @@ const fn = pify(index.handler);
 const fixture = {
 	'http-method': 'POST',
 	'resource-path': '/test',
-	'body': {
+	body: {
 		foo: 'bar'
 	},
-	'query': {
+	query: {
 		hello: 'world'
 	}
 };

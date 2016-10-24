@@ -3,9 +3,7 @@ const createError = require('http-errors');
 const statuses = require('statuses');
 
 module.exports = {
-	// eslint-disable-next-line babel/object-shorthand
-	throw: function () {
-		// eslint-disable-next-line prefer-spread
+	throw: function () {							// eslint-disable-line object-shorthand
 		throw createError.apply(null, arguments);
 	},
 	onerror: (context, err) => {
