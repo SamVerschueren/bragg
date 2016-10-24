@@ -107,6 +107,7 @@ These properties will then be available in the `request` object in the middlewar
 
 - [bragg-router](https://github.com/SamVerschueren/bragg-router) - Router middleware.
 - [bragg-env](https://github.com/SamVerschueren/bragg-env) - Extract the environment.
+- [bragg-decode-components](https://github.com/SamVerschueren/bragg-decode-components) - Decode the `params` and `query` object.
 - [bragg-safe-guard](https://github.com/SamVerschueren/bragg-safe-guard) - Prevents leaking information outside the bragg context.
 - [bragg-sns](https://github.com/SamVerschueren/bragg-sns) - SNS middleware.
 - [bragg-dynamodb](https://github.com/SamVerschueren/bragg-dynamodb) - DynamoDB middleware.
