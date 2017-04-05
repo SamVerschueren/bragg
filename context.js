@@ -20,7 +20,7 @@ module.exports = {
 			err.status = 404;
 		}
 
-		// default to 500
+		// Default to 500
 		if (typeof err.status !== 'number') {
 			err.status = 500;
 		}
