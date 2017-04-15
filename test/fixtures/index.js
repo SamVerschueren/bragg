@@ -1,5 +1,5 @@
 'use strict';
-const bragg = require('../');
+const bragg = require('../../');
 const app = bragg();
 
 app.use(ctx => {
