@@ -22,6 +22,8 @@ app.use(ctx => {
 			'Access-Control-Allow-Origin': '*',
 			'X-Api-Key': 'foo'
 		};
+	} else if (ctx.path === '/cors') {
+		ctx.headers['Access-Control-Allow-Origin'] = 'https://foo.bar';
 	} else if (ctx.path === '/foo-bar-baz') {
 		return Promise.resolve('Foo');
 	} else if (ctx.path === '/error') {

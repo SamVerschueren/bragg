@@ -35,6 +35,7 @@ test('create context', t => {
 		app,
 		cloud: 'azure',
 		req: fixture.req,
+		headers: { },
 		context: {
 			foo: 'bar'
 		},

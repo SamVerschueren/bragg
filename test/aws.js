@@ -30,6 +30,7 @@ test('create context', t => {
 		app,
 		cloud: 'aws',
 		req: fixture,
+		headers: { },
 		context: {
 			foo: 'bar'
 		},
@@ -126,6 +127,16 @@ test('custom headers', async t => {
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Origin': '*',
 			'X-Api-Key': 'foo'
+		}
+	});
+});
+
+test('set one header', async t => {
+	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/cors'}), {
+		statusCode: 200,
+		body: undefined,
+		headers: {
+			'Access-Control-Allow-Origin': 'https://foo.bar'
 		}
 	});
 });
