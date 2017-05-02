@@ -66,9 +66,7 @@ test('body not set', async t => {
 	t.deepEqual(await t.context.fn(fixture), {
 		statusCode: 200,
 		body: undefined,
-		headers: {
-			'Content-Type': 'application/json'
-		}
+		headers: { }
 	});
 });
 
@@ -76,9 +74,7 @@ test('return the body', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/foo'}), {
 		statusCode: 200,
 		body: 'Bar',
-		headers: {
-			'Content-Type': 'application/json'
-		}
+		headers: { }
 	});
 });
 
@@ -86,9 +82,7 @@ test('resolves body if it is a promise', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/foo-bar'}), {
 		statusCode: 200,
 		body: 'Foo Bar',
-		headers: {
-			'Content-Type': 'application/json'
-		}
+		headers: { }
 	});
 });
 
@@ -96,9 +90,7 @@ test('chain middlewares', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/foo-bar-baz'}), {
 		statusCode: 200,
 		body: 'Foo Bar Baz',
-		headers: {
-			'Content-Type': 'application/json'
-		}
+		headers: { }
 	});
 });
 
@@ -113,5 +105,27 @@ test('500 error', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/error'}), {
 		statusCode: 500,
 		body: 'Internal Server Error'
+	});
+});
+
+test('json response', async t => {
+	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/json'}), {
+		statusCode: 201,
+		body: '{"hello":"world"}',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+});
+
+test('custom headers', async t => {
+	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/headers'}), {
+		statusCode: 200,
+		body: '{"unicorn":"rainbow"}',
+		headers: {
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Origin': '*',
+			'X-Api-Key': 'foo'
+		}
 	});
 });
