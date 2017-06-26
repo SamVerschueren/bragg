@@ -98,14 +98,16 @@ test('chain middlewares', async t => {
 test('error', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/blabla'}), {
 		statusCode: 404,
-		body: 'Resource not found'
+		body: 'Resource not found',
+		headers: { }
 	});
 });
 
 test('500 error', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/error'}), {
 		statusCode: 500,
-		body: 'Internal Server Error'
+		body: 'Internal Server Error',
+		headers: { }
 	});
 });
 
