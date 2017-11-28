@@ -35,7 +35,8 @@ module.exports = {
 		const msg = `${err.status} - ${err.expose ? err.message : code}`;
 
 		// Call the error callback and fail
-		Promise.resolve(() => app.errorCb(err))
+		Promise.resolve()
+			.then(() => app.errorCb(err))
 			.then(() => context.fail(msg));
 	}
 };
