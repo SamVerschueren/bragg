@@ -41,6 +41,12 @@ app.use(ctx => {
 	ctx.body = Promise.resolve('Foo Bar');
 });
 
+app.onError(err => {
+	console.error(err.message);
+
+	return cleanUp();	// Async cleanup process
+});
+
 exports.handler = app.listen();
 ```
 

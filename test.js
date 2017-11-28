@@ -8,10 +8,10 @@ const fn = pify(index.handler);
 const fixture = {
 	'http-method': 'POST',
 	'resource-path': '/test',
-	'body': {
+	body: {
 		foo: 'bar'
 	},
-	'query': {
+	query: {
 		hello: 'world'
 	}
 };
@@ -80,10 +80,10 @@ test('chain middlewares', async t => {
 	t.is(await fn({'http-method': 'GET', 'resource-path': '/foo-bar-baz'}), 'Foo Bar Baz');
 });
 
-test('error', t => {
-	t.throws(fn({'http-metod': 'GET', 'resource-path': '/blabla'}), '404 - Resource not found');
+test('error', async t => {
+	await t.throws(fn({'http-metod': 'GET', 'resource-path': '/blabla'}), '404 - Resource not found');
 });
 
-test('500 error', t => {
-	t.throws(fn({'http-metod': 'GET', 'resource-path': '/error'}), '500 - Internal Server Error');
+test('500 error', async t => {
+	await t.throws(fn({'http-metod': 'GET', 'resource-path': '/error'}), '500 - Internal Server Error');
 });

@@ -23,6 +23,8 @@ class Application {
 	constructor() {
 		this._middleware = [];
 		this._context = Object.create(context);
+
+		this.errorCb = () => Promise.resolve();
 	}
 
 	use(fn) {
@@ -54,6 +56,10 @@ class Application {
 		return context;
 	}
 
+	onError(cb) {
+		this.errorCb = cb;
+	}
+
 	listen() {
 		const fn = compose(this._middleware);
 
@@ -61,7 +67,7 @@ class Application {
 			const ctx = this.createContext(req, context);
 			fn(ctx)
 				.then(() => respond(ctx, context))
-				.catch(err => ctx.onerror(context, err));
+				.catch(err => ctx.onerror(this, context, err));
 		};
 	}
 }
