@@ -35,8 +35,5 @@
     "ava": "*",
     "aws-lambda-pify": "^2.0.0",
     "xo": "*"
-  },
-  "xo": {
-    "esnext": true
   }
 }
