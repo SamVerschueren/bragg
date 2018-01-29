@@ -3,7 +3,9 @@ import pify from 'aws-lambda-pify';
 import index from './fixtures/lambda';
 import m from '.';
 
-const fn = pify(index.handler);
+const fn = pify(index.handler, {
+	account: '123456789012'
+});
 
 const fixture = {
 	'http-method': 'POST',
@@ -70,6 +72,10 @@ test('return undefined if the body is not set', async t => {
 
 test('return the body', async t => {
 	t.is(await fn({'http-method': 'GET', 'resource-path': '/foo'}), 'Bar');
+});
+
+test('account ID should be available in the context object', async t => {
+	t.is(await fn(Object.assign({}, fixture, {'resource-path': '/account'})), '123456789012');
 });
 
 test('resolves body if it is a promise', async t => {

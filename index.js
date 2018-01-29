@@ -41,6 +41,12 @@ class Application {
 		Object.defineProperty(context, 'req', {enumerable: true, value: req});
 		Object.defineProperty(context, 'context', {enumerable: true, value: ctx});
 
+		if (ctx.invokedFunctionArn) {
+			const accountId = ctx.invokedFunctionArn.split(':')[4];
+
+			Object.defineProperty(context, 'awsAccountId', {enumerable: true, value: accountId});
+		}
+
 		for (const key of ['body', 'query', 'params', 'identity']) {
 			Object.defineProperty(context.request, key, {enumerable: true, writable: true, value: req[key] || {}});
 		}
