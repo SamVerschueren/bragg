@@ -111,6 +111,14 @@ test('500 error', async t => {
 	});
 });
 
+test('account ID should be available in the context object', async t => {
+	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/account'}), {
+		statusCode: 200,
+		body: '123456789012',
+		headers: { }
+	});
+});
+
 test('json response', async t => {
 	t.deepEqual(await t.context.fn({httpMethod: 'GET', path: '/json'}), {
 		statusCode: 201,
