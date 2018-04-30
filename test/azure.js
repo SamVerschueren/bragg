@@ -60,9 +60,9 @@ test('overwrite body', t => {
 	t.deepEqual(ctx.request.body, 'foo');
 });
 
-test('error when overwriting a property of the context object', t => {
+test('error when overwriting ctx.method', t => {
 	const ctx = t.context.app.createContext(fixture.req, {foo: 'bar'});
 	t.throws(() => {
-		ctx.path = 'foo';
+		ctx.method = 'POST';
 	}, TypeError);
 });
