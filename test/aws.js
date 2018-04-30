@@ -1,7 +1,7 @@
 import test from 'ava';
 import pify from 'aws-lambda-pify';
-import m from '../';
-import index from './fixtures/index';
+import m from '..';
+import index from './fixtures';
 
 const fixture = {
 	httpMethod: 'POST',

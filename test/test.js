@@ -1,7 +1,7 @@
 import test from 'ava';
 import AWSApplication from '../lib/aws.application';
 import AzureApplication from '../lib/azure.application';
-import m from '../';
+import m from '..';
 
 test('create an AWS application by default', t => {
 	t.true(m() instanceof AWSApplication);

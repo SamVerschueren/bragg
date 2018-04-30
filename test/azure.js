@@ -1,8 +1,8 @@
 import test from 'ava';
 import pify from 'aws-lambda-pify';
 import './fixtures/azure-env';		// eslint-disable-line import/no-unassigned-import
-import m from '../';
-import index from './fixtures/index';
+import m from '..';
+import index from './fixtures';
 
 const fixture = {
 	req: {
