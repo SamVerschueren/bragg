@@ -1,11 +1,14 @@
 'use strict';
-const bragg = require('../../');
+const bragg = require('../..');
+
 const app = bragg();
 
 app.use(ctx => {
 	if (ctx.path === '/test') {
 		return Promise.resolve();
-	} else if (ctx.path === '/foo') {
+	}
+
+	if (ctx.path === '/foo') {
 		ctx.body = 'Bar';
 	} else if (ctx.path === '/foo-bar') {
 		ctx.body = Promise.resolve('Foo Bar');
