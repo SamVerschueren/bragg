@@ -1,5 +1,6 @@
 'use strict';
 const isPromise = require('is-promise');
+const createError = require('http-errors');
 const context = require('./context');
 
 const compose = middlewares => {
@@ -19,7 +20,6 @@ const respond = (ctx, res) => {
 };
 
 class Application {
-
 	constructor() {
 		this._middleware = [];
 		this._context = Object.create(context);
@@ -36,7 +36,7 @@ class Application {
 		const context = Object.create(this._context);
 		context.request = {};
 		context.app = this;
-		context.onerror = context.onerror.bind(context);
+		context.onerror = context.onerror.bind(context); // eslint-disable-line unicorn/prefer-add-event-listener
 
 		Object.defineProperty(context, 'req', {enumerable: true, value: req});
 		Object.defineProperty(context, 'context', {enumerable: true, value: ctx});
@@ -73,9 +73,15 @@ class Application {
 			const ctx = this.createContext(req, context);
 			fn(ctx)
 				.then(() => respond(ctx, context))
-				.catch(err => ctx.onerror(this, context, err));
+				.catch(error => ctx.onerror(this, context, error));
 		};
 	}
 }
 
-module.exports = () => new Application();
+const createApp = () => new Application();
+
+module.exports = createApp;
+module.exports.default = createApp;
+module.exports.createHttpError = function () {
+	return createError.apply(null, arguments);
+};

@@ -3,9 +3,8 @@ const createError = require('http-errors');
 const statuses = require('statuses');
 
 module.exports = {
-	// eslint-disable-next-line object-shorthand
-	throw: function () {
-		// eslint-disable-next-line prefer-spread
+	throw() {
+		console.warn('Bragg: `throw` is deprecated, use `createHttpError` instead');
 		throw createError.apply(null, arguments);
 	},
 	onerror: (app, context, err) => {
@@ -27,15 +26,16 @@ module.exports = {
 			err.status = 500;
 		}
 
+		err.code = statuses[err.status];
+
 		if (!err.expose) {
 			console.log(err.stack);
 		}
 
-		const code = statuses[err.status];
-		const msg = `${err.status} - ${err.expose ? err.message : code}`;
+		const msg = `${err.status} - ${err.expose ? err.message : err.code}`;
 
 		// Call the error callback and fail
-		Promise.resolve()
+		return Promise.resolve()
 			.then(() => app.errorCb(err))
 			.then(() => context.fail(msg));
 	}

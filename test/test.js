@@ -1,9 +1,9 @@
 import test from 'ava';
 import pify from 'aws-lambda-pify';
-import index from './fixtures/lambda';
-import m from '.';
+import m from '..';
+import lambda from './fixtures/lambda';
 
-const fn = pify(index.handler, {
+const fn = pify(lambda.handler, {
 	account: '123456789012'
 });
 
