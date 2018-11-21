@@ -1,39 +1,39 @@
 {
-  "name": "bragg",
-  "version": "1.2.0",
-  "description": "AWS Lambda web framework",
-  "license": "MIT",
-  "repository": "SamVerschueren/bragg",
-  "author": {
-    "name": "Sam Verschueren",
-    "email": "sam.verschueren@gmail.com",
-    "url": "github.com/SamVerschueren"
-  },
-  "engines": {
-    "node": ">=4"
-  },
-  "scripts": {
-    "test": "xo && ava"
-  },
-  "files": [
-    "index.js",
-    "context.js"
-  ],
-  "keywords": [
-    "aws",
-    "lambda",
-    "web",
-    "framework",
-    "bragg"
-  ],
-  "dependencies": {
-    "http-errors": "^1.4.0",
-    "is-promise": "^2.1.0",
-    "statuses": "^1.2.1"
-  },
-  "devDependencies": {
-    "ava": "*",
-    "aws-lambda-pify": "^2.0.0",
-    "xo": "*"
-  }
+	"name": "bragg",
+	"version": "1.2.0",
+	"description": "AWS Lambda web framework",
+	"license": "MIT",
+	"repository": "SamVerschueren/bragg",
+	"author": {
+		"name": "Sam Verschueren",
+		"email": "sam.verschueren@gmail.com",
+		"url": "github.com/SamVerschueren"
+	},
+	"engines": {
+		"node": ">=4"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js",
+		"context.js"
+	],
+	"keywords": [
+		"aws",
+		"lambda",
+		"web",
+		"framework",
+		"bragg"
+	],
+	"dependencies": {
+		"http-errors": "^1.7.1",
+		"is-promise": "^2.1.0",
+		"statuses": "^1.5.0"
+	},
+	"devDependencies": {
+		"ava": "^0.25.0",
+		"aws-lambda-pify": "^2.0.0",
+		"xo": "^0.20.3"
+	}
 }
