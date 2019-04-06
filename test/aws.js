@@ -49,6 +49,55 @@ test('create context', t => {
 	});
 });
 
+test('create context bragg 1', t => {
+	const app = m();
+
+	const ctx = app.createContext({
+		'http-method': 'POST',
+		'resource-path': '/test',
+		body: '{"foo": "bar"}',
+		query: {
+			hello: 'world'
+		},
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}, {foo: 'bar'});
+	delete ctx.onerror;
+
+	t.deepEqual(ctx, {
+		app,
+		cloud: 'aws',
+		req: {
+			'http-method': 'POST',
+			'resource-path': '/test',
+			body: '{"foo": "bar"}',
+			query: {
+				hello: 'world'
+			},
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		},
+		headers: {},
+		context: {
+			foo: 'bar'
+		},
+		method: 'POST',
+		path: '/test',
+		request: {
+			body: '{"foo": "bar"}',
+			query: {
+				hello: 'world'
+			},
+			identity: {},
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}
+	});
+});
+
 test('overwrite body', t => {
 	const ctx = t.context.app.createContext(fixture, {foo: 'bar'});
 	ctx.request.body = 'foo';
