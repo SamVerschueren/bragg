@@ -37,6 +37,7 @@ module.exports = {
 		// Call the error callback and fail
 		return Promise.resolve()
 			.then(() => app.errorCb(err))
-			.then(() => context.fail(msg));
+			.then(() => context.fail(msg))
+			.catch(error => context.fail(error || msg));
 	}
 };
