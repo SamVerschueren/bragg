@@ -38,14 +38,6 @@ module.exports = {
 		return Promise.resolve()
 			.then(() => app.errorCb(err))
 			.then(() => context.fail(msg))
-			.catch(error => {
-				if (error) {
-					context.fail(error);
-
-					return;
-				}
-
-				context.fail(msg);
-			});
+			.catch(error => context.fail(error || msg));
 	}
 };
