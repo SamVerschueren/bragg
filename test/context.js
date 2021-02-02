@@ -42,3 +42,37 @@ test('onerror should call correct handlers', async t => {
 
 	await context.onerror(app, ctx, 'Not Found');
 });
+
+test('should return with a message when `app.errorCb` does not throw', async t => {
+	t.plan(1);
+
+	const app = {
+		errorCb: () => {}
+	};
+
+	const ctx = {
+		fail(message) {
+			t.is(message, '500 - Internal Server Error');
+		}
+	};
+
+	await context.onerror(app, ctx, 'Not Found');
+});
+
+test('should error when `app.errorCb` does throws', async t => {
+	t.plan(1);
+
+	const app = {
+		errorCb: () => {
+			throw new Error('Error from `errorCb`');
+		}
+	};
+
+	const ctx = {
+		fail(err) {
+			t.is(err.message, 'Error from `errorCb`');
+		}
+	};
+
+	await context.onerror(app, ctx, 'Not Found');
+});
